@@ -12,12 +12,14 @@ const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
 class App {
+  // private fields
   #map;
   #mapEvent;
+
   constructor() {
     this._getPosition();
     form.addEventListener('submit', this._newWorkout.bind(this));
-    inputType.addEventListener('change', this._toggleElevationField);
+    inputType.addEventListener('change', this._toggleElevationField.bind(this));
   }
 
   _getPosition() {
@@ -36,7 +38,7 @@ class App {
     console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
 
     const coords = [latitude, longitude];
-    this.#map = L.this.#map('map').setView(coords, 15);
+    this.#map = L.map('map').setView(coords, 15);
     // console.log(map);
 
     L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
@@ -48,7 +50,7 @@ class App {
     this.#map.on('click', this._showForm.bind(this));
   }
 
-  _showForm() {
+  _showForm(mapE) {
     this.#mapEvent = mapE;
     form.classList.remove('hidden');
     inputDistance.focus();
@@ -88,4 +90,3 @@ class App {
 }
 
 const app = new App();
-app._getPosition();
